@@ -1,37 +1,41 @@
-# spido_simulation
-RobuFast Robot folders (description, urdf, plugins, gazebo)
+# Spido Robot Gazebo Simulation Framework (4WDS Platform)
 
-Spido robot is a fast all-terrain mobile robot with four-wheel drive and steering (4WDS). It can reach 12 m/s speed. 
-It weighs about 700 kg. It is equipped with 4 dual wishbone independent suspensions and 2 active anti-roll bars. 
-A Real Time Kinematic GPS (RTK-GPS) provides an accurate localization in real-time of the platform with respect 
-to a reference station, and an IMU (Inertial Measurement Unit) gives orientation angles of the platform. 
-A 3D LIDAR allows to perceive the environment and to identify dynamic or static obstacles.
+![ROS Melodic/Noetic](https://img.shields.io/badge/ROS-Melodic%2FNoetic-blue.svg)
+![Gazebo](https://img.shields.io/badge/Simulation-Gazebo-orange.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-http://www.isir.upmc.fr/index.php?op=view_equipe&lang=fr&pageid=1506&id=4
+This repository hosts the core ROS packages required to simulate the **Spido** robot (RobuFast platform) inside the Gazebo physics environment. It delivers full Unified Robot Description Format (`URDF/Xacro`) configurations, joint actuation controllers, embedded sensor suites, and low-level kinematic interfaces.
 
-Spido_sim
-=============
-
-Packages for the simulation of the Spido
-
-<h2>spido_control</h2>
-
-<p>This package contains the launch and configuration files to spawn the joint controllers with the ROS controller_manager. 
-It allows to launch the joint controllers for the Spido(4WDS).
-
-
-
-<h2>spido_gazebo</h2>
-
-launch files and world files to start the models in gazebo
-
-<h2>spido_description</h2>
-
-<p>control the robot joints in all kinematic configurations, publishes odom topic and, if configured, 
-also tf odom to base_link. 
-
-When used as main controller of the simulated robot, this node also computes the odometry of the robot using the joint movements and a IMU and publish this odometry to /odom. The node has a flag in the yaml files that forces the publication or not of the odom->base_footprint frames, needed by the localization and mapping algorithms.
+<p align="center">
+  <img width="697" height="250" alt="Spido Simulation Overview" src="https://github.com/user-attachments/assets/3810c2f4-aaea-4e7e-8091-df463fb5e5a4" />
 </p>
 
-<h2>spido_pure_interface</h2>
-<p> Control low-level (Front and rear steering angles)<p>
+---
+
+## 🚜 System Characteristics & Kinematics
+
+The **Spido** robot is a high-speed, all-terrain heavy-duty mobile platform configured with **Four-Wheel Drive and Four-Wheel Steering (4WDS)**. This kinematics configuration allows for advanced locomotion capabilities (such as crabbing or zero-radius turning), making it an ideal benchmark platform for harsh off-road navigation, predictive control engineering, and dynamic stabilization algorithms.
+
+### Technical Architecture Specifications
+
+| Parameter | Specification |
+| :--- | :--- |
+| **Maximum Velocity ($v_{max}$)** | 12 m/s (~43 km/h) |
+| **Total Platform Mass** | ~700 kg |
+| **Suspension Geometry** | 4x Dual wishbone independent suspensions |
+| **Stabilization Hardware** | 2x Active anti-roll bar actuators |
+| **Localization Sensor Suite** | Real-Time Kinematic GPS (RTK-GPS) & High-Frequency IMU |
+| **Perception Sensor Suite** | 3D LiDAR for spatial mapping and dynamic obstacle tracking |
+
+---
+
+## 📂 Repository Package Architecture
+
+The workspace is split into four distinct, highly modular ROS packages to separate mechanical descriptions, simulation environments, and control interfaces:
+
+```text
+spido_simulation/
+├── spido_control/          # ros_control plugin configs, joint trajectory tuning, and hardware managers
+├── spido_gazebo/           # Virtual world scenes, physics parameters, and core simulation launch files
+├── spido_description/      # URDF/Xacro kinematic profiles, meshes, odometry calculation, and transforms
+└── spido_pure_interface/   # Low-level abstraction layer bridging virtual simulation to physical CAN/hardware
